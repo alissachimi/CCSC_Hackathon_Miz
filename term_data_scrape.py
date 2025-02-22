@@ -2,15 +2,46 @@ import asyncio
 from playwright.async_api import async_playwright
 import sqlite3
 
+def extract_year(term):
+    return int(term[2:])
+
+def extract_semester(term):
+    semester = term[:2]
+    return semester
+
+def determine_likelihood(terms):
+    most_recent_year = max(extract_year(term) for term in terms)
+    base_year = min(extract_year(term) for term in terms)
+
+    def get_weight(term):
+        year = extract_year(term)
+        weight = (year - base_year) * 2
+        return weight
+    
+    total_weight = sum(get_weight(term) for term in terms)
+    all_semesters = []
+    for year in range(base_year, most_recent_year + 1):
+        all_semesters.append(f'SP{year}')
+        all_semesters.append(f'FS{year}')
+
+    max_weight = sum(get_weight(term) for term in all_semesters)
+    likelihood = total_weight / max_weight
+    likelihood = round(likelihood * 100)
+    return likelihood
+
 def insert_terms(subject, terms):
     # Connect the cursor
     conn = sqlite3.connect('college.db')
     cursor = conn.cursor()
 
     # Insert terms into table
-    cursor.execute()
-    print(subject)
-    print(terms)
+    next_sem_chance = determine_likelihood(terms)
+    cursor.execute('''
+        INSERT OR IGNORE INTO availability (class_id, semester_id)
+        VALUES (?, ?)
+    ''', (subject, next_sem_chance))
+    conn.commit()
+    conn.close()
 
 async def scrape(subject, id, page):
     terms_seen = set()
@@ -54,5 +85,5 @@ async def navigate(subject, id):
         # Close browser
         await browser.close()
 
-asyncio.run(navigate('CMP_SC', '1050'))
+asyncio.run(navigate('CMP_SC', '8170'))
 
