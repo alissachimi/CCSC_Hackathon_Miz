@@ -194,8 +194,8 @@
         <h1>Minor Recommender</h1>
 
         <!-- Upload Box -->
-        <form action="/minor_recomendation" method="POST" enctype="multipart/form-data"  class="upload-box" id="uploadBox">
-            <input type="file" name="file" accept=".xlsx, .xls">
+        <form action="/minor_recomendation" method="POST" enctype="multipart/form-data" class="upload-box" id="uploadForm">
+            <input type="file" id="fileInput" name="file" accept=".xlsx, .xls">
             <button type="submit">SUBMIT</button>
         </form>
 
@@ -209,70 +209,35 @@
     </div>
 
     <script>
-        // Sample data for minors (replace with actual data from the uploaded file)
-        const minorsData = [
-            { name: "Computer Science", creditsNeeded: 15, classesNeeded: ["CS 101", "CS 201", "CS 301"] },
-            { name: "Data Science", creditsNeeded: 18, classesNeeded: ["DS 101", "MATH 101", "STAT 201"] },
-            { name: "Cybersecurity", creditsNeeded: 12, classesNeeded: ["CS 430", "CS 440", "MATH 202"] },
-            { name: "Psychology", creditsNeeded: 20, classesNeeded: ["PSY 101", "PSY 201", "PSY 301"] },
-            { name: "Business", creditsNeeded: 22, classesNeeded: ["BUS 101", "ECON 101", "MKTG 201"] },
-            { name: "Art History", creditsNeeded: 10, classesNeeded: ["ART 101", "ART 201", "HIST 301"] },
-            { name: "Biology", creditsNeeded: 25, classesNeeded: ["BIO 101", "CHEM 101", "BIO 201"] },
-            { name: "Mathematics", creditsNeeded: 18, classesNeeded: ["MATH 101", "MATH 201", "MATH 301"] },
-            { name: "English", creditsNeeded: 15, classesNeeded: ["ENG 101", "ENG 201", "ENG 301"] },
-            { name: "Philosophy", creditsNeeded: 12, classesNeeded: ["PHIL 101", "PHIL 201", "PHIL 301"] },
-        ];
-
-        // Display first 10 minors
-        let displayedMinors = 10;
+        // Display minors data (if available)
+        const allProgress = JSON.parse('{{ all_progress | tojson | safe }}');
         const minorList = document.getElementById("minorList");
 
-        function displayMinors(start, end) {
-            minorsData.slice(start, end).forEach(minor => {
+        if (allProgress && allProgress.length > 0) {
+            minorList.style.display = "block";
+
+            allProgress.forEach(minor => {
                 const minorItem = document.createElement("div");
                 minorItem.className = "minor-item";
                 minorItem.innerHTML = `
-                    <h5>${minor.name} <span style="color: #ccc; font-size: 0.9rem;">(${minor.creditsNeeded} credits needed)</span></h5>
+                    <h5>${minor.minor_name}</h5>
+                    <p><strong>Total Required Hours:</strong> ${minor.total_required_hours}</p>
+                    <p><strong>Completed Hours:</strong> ${minor.completed_hours}</p>
                     <div class="minor-details">
+                        <h6>Category Progress:</h6>
                         <ul>
-                            ${minor.classesNeeded.map(cls => `<li>${cls}</li>`).join("")}
+                            ${minor.categories.map(cat => `
+                                <li>
+                                    <strong>${cat.category_name}:</strong>
+                                    ${cat.completed_hours}/${cat.required_hours} hours
+                                </li>
+                            `).join("")}
                         </ul>
                     </div>
                 `;
-                minorItem.addEventListener("click", () => {
-                    const details = minorItem.querySelector(".minor-details");
-                    details.style.display = details.style.display === "block" ? "none" : "block";
-                });
                 minorList.appendChild(minorItem);
             });
         }
-
-        displayMinors(0, displayedMinors);
-
-        // Load More Button
-        const loadMoreBtn = document.getElementById("loadMoreBtn");
-        loadMoreBtn.addEventListener("click", () => {
-            const nextMinors = minorsData.slice(displayedMinors, displayedMinors + 10);
-            if (nextMinors.length > 0) {
-                displayMinors(displayedMinors, displayedMinors + 10);
-                displayedMinors += 10;
-            } else {
-                loadMoreBtn.style.display='none';
-            }
-        });
-
-        // File Upload
-        const uploadBox = document.getElementById("uploadBox");
-        const fileInput = document.getElementById("fileInput");
-
-        uploadBox.addEventListener("click", () => fileInput.click());
-        fileInput.addEventListener("change", (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                uploadBox.innerHTML = `<p>Uploaded: ${file.name}</p>`;
-                // Process the file here (e.g., parse Excel data)
-            }
-        });
     </script>
 </body>
 </html>
