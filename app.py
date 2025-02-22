@@ -47,9 +47,8 @@ def get_class_details(class_ids):
     conn.close()
     return class_details
 
-
-
 ######### DATABASE LOGIC END ##########
+
 @app.route('/')
 def home():
     return render_template('index.html')
