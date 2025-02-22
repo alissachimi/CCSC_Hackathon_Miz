@@ -2,46 +2,60 @@ import asyncio
 from playwright.async_api import async_playwright
 import sqlite3
 
-def extract_year(term):
-    return int(term[2:])
-
-def extract_semester(term):
-    semester = term[:2]
-    return semester
-
 def determine_likelihood(terms):
-    most_recent_year = max(extract_year(term) for term in terms)
-    base_year = min(extract_year(term) for term in terms)
+    FSYears = []
+    SPYears = []
+    for term in terms:
+        semester = term[:2]
+        year = int(term[2:])
+        if semester == 'FS':
+            FSYears.append(year)
+        elif semester == 'SP':
+            SPYears.append(year)
 
-    def get_weight(term):
-        year = extract_year(term)
-        weight = (year - base_year) * 2
-        return weight
-    
-    total_weight = sum(get_weight(term) for term in terms)
-    all_semesters = []
-    for year in range(base_year, most_recent_year + 1):
-        all_semesters.append(f'SP{year}')
-        all_semesters.append(f'FS{year}')
+    # calculate % just based on number of apperances
+    if FSYears:
+        FSChance = round((len(FSYears) / (max(FSYears) - min(FSYears) + 1)) * 100)
+    else:
+        FSChance = 0
+    if SPYears:
+        SPChance = round((len(SPYears) / (max(SPYears) - min(SPYears) + 1)) * 100)
+    else:
+        SPChance = 0
 
-    max_weight = sum(get_weight(term) for term in all_semesters)
-    likelihood = total_weight / max_weight
-    likelihood = round(likelihood * 100)
-    return likelihood
+    if FSChance >= 90:
+        OfferedInFall = 1
+    elif FSChance > 0:
+        OfferedInFall = -1
+    else:
+        OfferedInFall = 0
+
+    if SPChance >= 90:
+        OffereInSpring = 1
+    elif SPChance > 0:
+        OffereInSpring = -1
+    else:
+        OffereInSpring = 0
+
+    return OfferedInFall, OffereInSpring
+        
 
 def insert_terms(subject, terms):
     # Connect the cursor
-    conn = sqlite3.connect('college.db')
-    cursor = conn.cursor()
+    # conn = sqlite3.connect('college.db')
+    # cursor = conn.cursor()
 
     # Insert terms into table
-    next_sem_chance = determine_likelihood(terms)
-    cursor.execute('''
-        INSERT OR IGNORE INTO availability (class_id, semester_id)
-        VALUES (?, ?)
-    ''', (subject, next_sem_chance))
-    conn.commit()
-    conn.close()
+    fall, spring = determine_likelihood(terms)
+    print(subject)
+    print(fall, spring)
+    # cursor.execute('''
+    #     INSERT OR IGNORE INTO availability (class_id, semester_id)
+    #     VALUES (?, ?)
+    # ''', (subject, next_sem_chance))
+    # print(subject, next_sem_chance)
+    # conn.commit()
+    # conn.close()
 
 async def scrape(subject, id, page):
     terms_seen = set()
@@ -60,30 +74,46 @@ async def scrape(subject, id, page):
     sorted_terms = sorted(terms_seen, key=lambda term: int(term[2:]), reverse=True)
     insert_terms(subject + id, sorted_terms)
 
-async def navigate(subject, id):
-    async with async_playwright() as p:
-        # Launch browser
-        browser = await p.chromium.launch(headless=True)
-        page = await browser.new_page()
+async def navigate(subject, id, semaphore, i):
+    async with semaphore:
+        async with async_playwright() as p:
+            # Launch browser
+            browser = await p.chromium.launch(headless=True)
+            page = await browser.new_page()
 
-        # Navigate to the URL
-        await page.goto('https://musis1.missouri.edu/gradedist/mu_grade_dist_intro.cfm')
+            try:
+                print(i)
+                await page.goto('https://musis1.missouri.edu/gradedist/mu_grade_dist_intro.cfm', timeout=20000)  # 20 seconds timeout
+                await page.select_option('select#subject', value=f'{subject}')
+                await page.select_option('select#catalog_nbr', value=f'{id}')
+                await page.click('input#submit')
 
-        # Interact with a dropdown and select an option
-        await page.select_option('select#subject', value=f'{subject}')  # Select Subject
-        await page.select_option('select#catalog_nbr', value=f'{id}')  # Select Number
+                await scrape(subject, id, page)
+                await page.wait_for_timeout(2000)  # Wait for 2 seconds
 
-        # Interact with submit button
-        await page.click('input#submit')
+            except Exception as e:
+                print(f"Skipping {i}")
 
-        # Scrape data
-        await scrape(subject, id, page)
+            finally:
+                await browser.close()
 
-        # Wait for some action or verification
-        await page.wait_for_timeout(2000)  # Wait for 2 seconds
+async def main(courses):
+    semaphore = asyncio.Semaphore(10)
+    tasks = []
 
-        # Close browser
-        await browser.close()
+    for i in range(0,19):
+        try:
+            tasks.append(asyncio.create_task(navigate(courses[i][0], courses[i][1], semaphore, i)))
+        except Exception as e:
+            print(f'Error at iteration {i}, skipping')
+            continue
+    await asyncio.gather(*tasks)
 
-asyncio.run(navigate('CMP_SC', '8170'))
-
+# get course data
+conn = sqlite3.connect('college.db')
+cursor = conn.cursor()
+cursor.execute(''' SELECT dept, id FROM class WHERE dept = 'CMP_SC' ''')
+courses = cursor.fetchall()
+conn.commit()
+conn.close()
+asyncio.run(main(courses))
