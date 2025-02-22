@@ -12,12 +12,13 @@ body {
 
 h1 {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 2rem;
+    font-size: 3.5rem;
     font-weight: 600;
-    color: #ffffff;
-    margin-bottom: 10px;
-    text-shadow: 0 0 3px rgba(255, 223, 0, 0.2), 0 0 6px rgba(255, 223, 0, 0.3);
-    animation: glow 3s ease-in-out infinite alternate, fadeIn 2s ease-out;
+    color: #ffffff3f;
+    margin-bottom: 0px;
+    margin-top: 10px;
+    animation: fadeIn 2s ease-out;
+    text-transform: uppercase;
 }
 
 .background-card {
@@ -29,10 +30,10 @@ h1 {
     transform: translate(-50%, -50%);
     width: 90%;
     height: 90%;
-    background-color: rgb(24, 24, 24);
+    background-color: rgba(66, 7, 50, 0.722);
     border-radius: 20px;
     padding: 30px;
-    padding-top: 10px;
+    padding-top: 0px;
     backdrop-filter: blur(10px);
     box-shadow: 0 0 50px rgba(125, 96, 0, 0.621);
     animation: cardGlow 4s ease-in-out infinite alternate;
@@ -372,4 +373,96 @@ h1 {
 
 .list-items-container::-webkit-scrollbar-thumb:hover {
     background: #999; /* Darker handle on hover */
+}
+
+
+/* Year title card styling */
+.year-title-card {
+    background-color: #1a1a1a; /* Dark background */
+    border: 1px solid #ffd700; /* Gold border */
+    border-radius: 8px; /* Rounded corners */
+    padding: 10px;
+    margin-bottom: 15px;
+    text-align: center;
+    color: #ffd700; /* Gold text */
+    font-size: 18px;
+    font-weight: 600;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5); /* Glowing shadow */
+}
+
+/* Year column styling */
+.year-column {
+    border: 1px solid #ffd700; /* Gold border */
+    background: #b4b4b4; /* Dark background */
+    padding: 15px;
+    border-radius: 12px; /* Rounded corners */
+    min-height: 300px;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5); /* Glowing shadow */
+    transition: box-shadow 0.3s ease; /* Smooth hover effect */
+}
+
+.year-column:hover {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.8); /* Enhanced glow on hover */
+}
+
+/* Class grid layout */
+.class-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two columns */
+    gap: 12px; /* Spacing between cards */
+}
+
+/* Class card styling */
+.class-card {
+    width: 100%;
+    height: 60px; /* Slightly taller cards */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 14px;
+    background-color: #1a1a1a; /* Dark background */
+    border: 3px solid #ffd700; /* Gold border */
+    border-radius: 8px; /* Rounded corners */
+    cursor: grab;
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth hover and grab effects */
+    color: #ffd700; /* Gold text */
+}
+
+.class-card:hover {
+    transform: translateY(-2px); /* Slight lift on hover */
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.8); /* Glowing shadow on hover */
+}
+
+/* Filled class card styling */
+.class-card.filled {
+    background-color: #f4f4f4; /* Slightly lighter dark background */
+    border: 4px double rgb(150, 25, 116); /* Gold border */
+    color: black; /* Gold text */
+    font-weight: 500; /* Slightly bolder text */
+}
+
+/* Empty class card styling */
+.class-card.empty {
+    background-color: #a8a8a8; /* Dark background */
+    border: 2px dashed #ffd700; /* Gold dashed border */
+    cursor: pointer;
+    color: #ffd700; /* Gold text */
+    font-style: italic; /* Italic text for placeholder effect */
+}
+
+.class-card.empty:hover {
+    background-color: #6a6a6a; /* Slightly lighter dark background on hover */
+    border-color: #ffd700; /* Gold border on hover */
+}
+
+.class-card.filled:hover {
+    box-shadow: 0 0 10px rgba(150, 25, 116, .8);
+}
+
+/* Dragging state */
+.class-card.dragging {
+    opacity: 0.7; /* Slightly transparent while dragging */
+    cursor: grabbing; /* Change cursor to grabbing */
+    z-index: 1000; /* Ensure the card is on top while dragging */
 }

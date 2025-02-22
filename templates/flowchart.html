@@ -10,11 +10,85 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
 </head>
 <body>
     <div class="background-card">
         <h1>{{major}}</h1>
-        <button id="openModalBtn" data-toggle="modal" data-target="#myModal">elective</button>
+        <div class="container mt-5">
+            <div class="row text-center">
+                <div class="col-md-3">
+                    <div class="year-title-card">FRESHMAN</div>
+                </div>
+                <div class="col-md-3">
+                    <div class="year-title-card">SOPHOMORE</div>
+                </div>
+                <div class="col-md-3">
+                    <div class="year-title-card">JUNIOR</div>
+                </div>
+                <div class="col-md-3">
+                    <div class="year-title-card">SENIOR</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div id="freshman" class="year-column class-grid">
+                        <div class="class-card filled">Math 101</div>
+                        <div class="class-card filled">English 102</div>
+                        <div class="class-card empty" onclick="cardClicked(this)"></div>
+                        <div class="class-card empty" onclick="cardClicked(this)"></div>
+                        <div class="class-card empty" onclick="cardClicked(this)"></div>
+                        <div class="class-card empty" onclick="cardClicked(this)"></div>
+                        <div class="class-card empty" onclick="cardClicked(this)"></div>
+                        <div class="class-card empty" onclick="cardClicked(this)"></div>
+                        <div class="class-card empty" onclick="cardClicked(this)"></div>
+                        <div class="class-card empty" onclick="cardClicked(this)"></div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div id="sophomore" class="year-column class-grid">
+                        <div class="class-card filled">History 202</div>
+                        <div class="class-card filled">Science 203</div>
+                        <div class="class-card empty" onclick="cardClicked(this)"></div>
+                        <div class="class-card empty" onclick="cardClicked(this)"></div>
+                        <div class="class-card empty" onclick="cardClicked(this)"></div>
+                        <div class="class-card empty" onclick="cardClicked(this)"></div>
+                        <div class="class-card empty" onclick="cardClicked(this)"></div>
+                        <div class="class-card empty" onclick="cardClicked(this)"></div>
+                        <div class="class-card empty" onclick="cardClicked(this)"></div>
+                        <div class="class-card empty" onclick="cardClicked(this)"></div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div id="junior" class="year-column class-grid">
+                        <div class="class-card filled">Physics 301</div>
+                        <div class="class-card filled">Algebra 302</div>
+                        <div class="class-card empty" onclick="cardClicked(this)"></div>
+                        <div class="class-card empty" onclick="cardClicked(this)"></div>
+                        <div class="class-card empty" onclick="cardClicked(this)"></div>
+                        <div class="class-card empty" onclick="cardClicked(this)"></div>
+                        <div class="class-card empty" onclick="cardClicked(this)"></div>
+                        <div class="class-card empty" onclick="cardClicked(this)"></div>
+                        <div class="class-card empty" onclick="cardClicked(this)"></div>
+                        <div class="class-card empty" onclick="cardClicked(this)"></div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div id="senior" class="year-column class-grid">
+                        <div class="class-card filled">Ethics 401</div>
+                        <div class="class-card filled">Biology 402</div>
+                        <div class="class-card empty" onclick="cardClicked(this)"></div>
+                        <div class="class-card empty" onclick="cardClicked(this)"></div>
+                        <div class="class-card empty" onclick="cardClicked(this)"></div>
+                        <div class="class-card empty" onclick="cardClicked(this)"></div>
+                        <div class="class-card empty" onclick="cardClicked(this)"></div>
+                        <div class="class-card empty" onclick="cardClicked(this)"></div>
+                        <div class="class-card empty" onclick="cardClicked(this)"></div>
+                        <div class="class-card empty" onclick="cardClicked(this)"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -52,6 +126,42 @@
     </div>
 
     <script>
+document.addEventListener("DOMContentLoaded", function () {
+            // Enable drag-and-drop for all cards (both filled and empty)
+            interact('.class-card').draggable({
+                inertia: true, // Smooth movement
+                modifiers: [
+                    interact.modifiers.restrictRect({
+                        endOnly: true
+                    })
+                ],
+                autoScroll: true,
+                listeners: {
+                    start(event) {
+                        event.target.classList.add('dragging'); // Add a class while dragging
+                    },
+                    move(event) {
+                        const target = event.target;
+                        const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
+                        const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+                        // Move the element
+                        target.style.transform = `translate(${x}px, ${y}px)`;
+                        target.setAttribute('data-x', x);
+                        target.setAttribute('data-y', y);
+                    },
+                    end(event) {
+                        event.target.classList.remove('dragging'); // Remove the class after dragging
+                    }
+                }
+            });
+        });
+
+        function cardClicked(card) {
+            $('#myModal').modal('show');
+        }
+
+
         const items = [
             {
                 id: 'CS_101',
