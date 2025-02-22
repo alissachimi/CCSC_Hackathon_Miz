@@ -104,6 +104,7 @@ h1 {
     padding: 15px;
     background-color: #333333; /* Slightly lighter dark background */
     overflow: hidden;
+    margin: 10px;
 }
 
 .list-items-container {
@@ -111,7 +112,7 @@ h1 {
     flex-direction: column;
     max-height: 300px;
     overflow-y: auto;
-    padding-right: 10px;
+    padding: 15px;
 }
 
 .list-item {
@@ -379,6 +380,14 @@ h1 {
     font-weight: 500; /* Slightly bolder text */
 }
 
+/* Filled class card styling elective */
+.class-card.filled.elective {
+    background-color: #cc45de54; /* Slightly lighter dark background */
+    border: 2px solid rgb(221, 66, 232); /* Gold border */
+    color: white; /* Gold text */
+    font-weight: 500; /* Slightly bolder text */
+}
+
 /* Empty class card styling */
 .class-card.empty {
     background-color: #a8a8a83d; /* Dark background */
@@ -395,6 +404,10 @@ h1 {
 
 .class-card.filled:hover {
     box-shadow: 0 0 10px rgba(25, 96, 150, .8);
+}
+
+.class-card.filled.elective:hover {
+    box-shadow: 0 0 10px rgba(133, 25, 150, 0.8);
 }
 
 /* Dragging state */
