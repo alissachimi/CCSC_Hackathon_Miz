@@ -30,7 +30,7 @@ h1 {
     transform: translate(-50%, -50%);
     width: 90%;
     height: 90%;
-    background-color: rgba(66, 7, 50, 0.722);
+    background-color: rgb(107, 70, 98);
     border-radius: 20px;
     padding: 30px;
     padding-top: 0px;
@@ -384,16 +384,17 @@ h1 {
     padding: 10px;
     margin-bottom: 15px;
     text-align: center;
-    color: #ffd700; /* Gold text */
+    color: white; /* Gold text */
     font-size: 18px;
     font-weight: 600;
     box-shadow: 0 0 10px rgba(255, 215, 0, 0.5); /* Glowing shadow */
+    margin-top: 0px;
 }
 
 /* Year column styling */
 .year-column {
     border: 1px solid #ffd700; /* Gold border */
-    background: #b4b4b4; /* Dark background */
+    background: #b4b4b45d; /* Dark background */
     padding: 15px;
     border-radius: 12px; /* Rounded corners */
     min-height: 300px;
@@ -436,15 +437,15 @@ h1 {
 
 /* Filled class card styling */
 .class-card.filled {
-    background-color: #f4f4f4; /* Slightly lighter dark background */
-    border: 4px double rgb(150, 25, 116); /* Gold border */
-    color: black; /* Gold text */
+    background-color: #458cde54; /* Slightly lighter dark background */
+    border: 2px solid rgb(66, 155, 232); /* Gold border */
+    color: white; /* Gold text */
     font-weight: 500; /* Slightly bolder text */
 }
 
 /* Empty class card styling */
 .class-card.empty {
-    background-color: #a8a8a8; /* Dark background */
+    background-color: #a8a8a83d; /* Dark background */
     border: 2px dashed #ffd700; /* Gold dashed border */
     cursor: pointer;
     color: #ffd700; /* Gold text */
@@ -452,12 +453,12 @@ h1 {
 }
 
 .class-card.empty:hover {
-    background-color: #6a6a6a; /* Slightly lighter dark background on hover */
+    background-color: #6a6a6a2f; /* Slightly lighter dark background on hover */
     border-color: #ffd700; /* Gold border on hover */
 }
 
 .class-card.filled:hover {
-    box-shadow: 0 0 10px rgba(150, 25, 116, .8);
+    box-shadow: 0 0 10px rgba(25, 96, 150, .8);
 }
 
 /* Dragging state */
