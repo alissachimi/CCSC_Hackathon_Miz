@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minor Recommender</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Roboto:wght@400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            color: #f9f9f9;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: serif;
+            overflow: hidden;
+            margin: 0;
+            position: relative;
+            background-color: #121212;
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 5rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 10px;
+            animation: fadeIn 2s ease-out;
+        }
+
+        h4 {
+            font-family: 'Cormorant Garamond', serif;
+            animation: glow 3s ease-in-out infinite alternate, fadeIn 2s ease-out;
+            margin-bottom: 50px;
+            color: white;
+        }
+
+        .background-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            height: 80%;
+            background-color: rgb(24, 24, 24);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 50px rgba(145, 116, 0, 0.621);
+            animation: cardGlow 4s ease-in-out infinite alternate;
+        }
+
+        .upload-box {
+            width: 100%;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 2px dashed #f0c300;
+            border-radius: 10px;
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .upload-box:hover {
+            border-color: #e0a800;
+            box-shadow: 0 0 25px rgba(255, 223, 0, 0.8);
+        }
+
+        .minor-list {
+            width: 100%;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+
+        .minor-item {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid #f0c300;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .minor-item:hover {
+            border-color: #e0a800;
+            box-shadow: 0 0 15px rgba(255, 223, 0, 0.5);
+        }
+
+        .minor-item h5 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: #f0c300;
+        }
+
+        .minor-item p {
+            margin: 5px 0 0;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        .minor-details {
+            margin-top: 10px;
+            padding-left: 20px;
+            border-left: 2px solid #f0c300;
+            display: none;
+        }
+
+        .minor-details ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .minor-details li {
+            margin: 5px 0;
+            color: #ccc;
+        }
+
+        .load-more-btn {
+            padding: 10px 20px;
+            background-color: #f0c4008d;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .load-more-btn:hover {
+            background-color: #e0a800;
+            box-shadow: 0 0 25px rgba(255, 223, 0, 0.8);
+        }
+
+        @keyframes cardGlow {
+            0% {
+                box-shadow: 0 0 50px rgba(255, 223, 0, 0.5);
+            }
+            100% {
+                box-shadow: 0 0 80px rgba(255, 223, 0, 0.8);
+            }
+        }
+
+        @keyframes glow {
+            0% {
+                text-shadow: 0 0 15px rgba(255, 223, 0, 0.2), 0 0 30px rgba(255, 223, 0, 0.3);
+            }
+            100% {
+                text-shadow: 0 0 25px rgba(255, 223, 0, 0.4), 0 0 45px rgba(255, 223, 0, 0.5);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Scrollbar styling */
+        .minor-list::-webkit-scrollbar {
+            width: 8px; /* Vertical scrollbar width */
+        }
+
+        .minor-list::-webkit-scrollbar-track {
+            background: #f1f1f1; /* Light gray track */
+            border-radius: 5px;
+        }
+
+        .minor-list::-webkit-scrollbar-thumb {
+            background: #ccc; /* Gray scrollbar handle */
+            border-radius: 5px;
+        }
+
+        .minor-list::-webkit-scrollbar-thumb:hover {
+            background: #999; /* Darker handle on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="background-card">
+        <h1>Minor Recommender</h1>
+
+        <!-- Upload Box -->
+        <form action="/minor_recomendation" method="POST" enctype="multipart/form-data"  class="upload-box" id="uploadBox">
+            <input type="file" name="file" accept=".xlsx, .xls">
+            <button type="submit">SUBMIT</button>
+        </form>
+
+        <!-- Minor List -->
+        <div class="minor-list" id="minorList" style="display: none;">
+            <!-- Minors will be dynamically inserted here -->
+        </div>
+
+        <!-- Load More Button -->
+        <button class="load-more-btn" id="loadMoreBtn" style="display: none;">Load More</button>
+    </div>
+
+    <script>
+        // Sample data for minors (replace with actual data from the uploaded file)
+        const minorsData = [
+            { name: "Computer Science", creditsNeeded: 15, classesNeeded: ["CS 101", "CS 201", "CS 301"] },
+            { name: "Data Science", creditsNeeded: 18, classesNeeded: ["DS 101", "MATH 101", "STAT 201"] },
+            { name: "Cybersecurity", creditsNeeded: 12, classesNeeded: ["CS 430", "CS 440", "MATH 202"] },
+            { name: "Psychology", creditsNeeded: 20, classesNeeded: ["PSY 101", "PSY 201", "PSY 301"] },
+            { name: "Business", creditsNeeded: 22, classesNeeded: ["BUS 101", "ECON 101", "MKTG 201"] },
+            { name: "Art History", creditsNeeded: 10, classesNeeded: ["ART 101", "ART 201", "HIST 301"] },
+            { name: "Biology", creditsNeeded: 25, classesNeeded: ["BIO 101", "CHEM 101", "BIO 201"] },
+            { name: "Mathematics", creditsNeeded: 18, classesNeeded: ["MATH 101", "MATH 201", "MATH 301"] },
+            { name: "English", creditsNeeded: 15, classesNeeded: ["ENG 101", "ENG 201", "ENG 301"] },
+            { name: "Philosophy", creditsNeeded: 12, classesNeeded: ["PHIL 101", "PHIL 201", "PHIL 301"] },
+        ];
+
+        // Display first 10 minors
+        let displayedMinors = 10;
+        const minorList = document.getElementById("minorList");
+
+        function displayMinors(start, end) {
+            minorsData.slice(start, end).forEach(minor => {
+                const minorItem = document.createElement("div");
+                minorItem.className = "minor-item";
+                minorItem.innerHTML = `
+                    <h5>${minor.name} <span style="color: #ccc; font-size: 0.9rem;">(${minor.creditsNeeded} credits needed)</span></h5>
+                    <div class="minor-details">
+                        <ul>
+                            ${minor.classesNeeded.map(cls => `<li>${cls}</li>`).join("")}
+                        </ul>
+                    </div>
+                `;
+                minorItem.addEventListener("click", () => {
+                    const details = minorItem.querySelector(".minor-details");
+                    details.style.display = details.style.display === "block" ? "none" : "block";
+                });
+                minorList.appendChild(minorItem);
+            });
+        }
+
+        displayMinors(0, displayedMinors);
+
+        // Load More Button
+        const loadMoreBtn = document.getElementById("loadMoreBtn");
+        loadMoreBtn.addEventListener("click", () => {
+            const nextMinors = minorsData.slice(displayedMinors, displayedMinors + 10);
+            if (nextMinors.length > 0) {
+                displayMinors(displayedMinors, displayedMinors + 10);
+                displayedMinors += 10;
+            } else {
+                loadMoreBtn.style.display='none';
+            }
+        });
+
+        // File Upload
+        const uploadBox = document.getElementById("uploadBox");
+        const fileInput = document.getElementById("fileInput");
+
+        uploadBox.addEventListener("click", () => fileInput.click());
+        fileInput.addEventListener("change", (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                uploadBox.innerHTML = `<p>Uploaded: ${file.name}</p>`;
+                // Process the file here (e.g., parse Excel data)
+            }
+        });
+    </script>
+</body>
+</html>
