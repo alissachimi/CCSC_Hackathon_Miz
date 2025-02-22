@@ -12,23 +12,41 @@ def get_db():
     conn.row_factory = sqlite3.Row
     return conn
 
-def get_prerequisites(classID):
+# Get any prerequisite ids for a given class
+def get_prereq_ids(classID):
     conn = sqlite3.connect('college.db')
     cursor = conn.cursor()
 
+    # Query to get all the prerequisite class IDs for a given class
     cursor.execute('''
         SELECT pr.prereq_id
         FROM prereq pr
         WHERE pr.class_id = ?
     ''', (classID,))
 
-    # Fetch all the results
-    results = cursor.fetchall()
+    prereq_classes = cursor.fetchall()
+    prereq_class_ids = [row[0] for row in prereq_classes]
     conn.close()
+    return prereq_class_ids
 
-    # Extract the classIDs from the query result
-    prereq_classes = [row[0] for row in results]
-    return prereq_classes
+
+# Get all the class details given a list of classIDs
+def get_class_details(class_ids):
+
+    conn = sqlite3.connect('college.db')
+    cursor = conn.cursor()
+
+    placeholders = ', '.join('?' for _ in class_ids)
+    cursor.execute(f'''
+        SELECT class_id, class_name, class_description
+        FROM class
+        WHERE class_id IN ({placeholders})
+    ''', tuple(class_ids))
+
+    class_details = cursor.fetchall()
+    conn.close()
+    return class_details
+
 
 
 ######### DATABASE LOGIC END ##########
