@@ -139,6 +139,26 @@
                 transform: translateX(0);
             }
         }
+
+        .minor-recommender {
+            margin-top: 20px;
+            text-align: center;
+            position: absolute;
+            bottom: 30px;
+        }
+
+        .minor-link {
+            color: #f0c300;
+            font-style: italic;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .minor-link:hover {
+            color: #e0a800;
+            text-shadow: 0 0 10px rgba(255, 223, 0, 0.5);
+        }
     </style>
 </head>
 <body>
@@ -156,6 +176,9 @@
                 <button type="submit" class="submit-btn">Submit</button>
             </div>
         </form>
+        <div class="minor-recommender">
+            <a href="/minor_recomendation" class="minor-link">or try our <i>minor recommender!</i></a>
+        </div>
     </div>
 
     <script>

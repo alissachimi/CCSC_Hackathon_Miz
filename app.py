@@ -1,5 +1,8 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import sqlite3
+import pandas as pd
+import os
+
 
 app = Flask(__name__, static_folder='static')
 
@@ -55,12 +58,53 @@ def home():
 
 
 @app.route('/flowchart', methods=['POST'])
-def submit():
+def flowchart():
     major = request.form.get('major')
     if major:
         # add logic here to process the major selection
         return render_template('flowchart.html', major=major)
     return "No major selected."
+
+# Allowed file extensions
+ALLOWED_EXTENSIONS = {'xlsx', 'xls'}
+
+def allowed_file(filename):
+    """Check if the file has an allowed extension."""
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/minor_recomendation', methods=['POST', 'GET'])
+def minor_recomendation():
+    if request.method == 'GET':
+        return render_template('minor_recomendation.html')
+    if request.method=='POST':
+        if 'file' not in request.files:
+            return jsonify({"error": "No file part"}), 400
+
+        file = request.files['file']
+
+        # Check if the file is empty
+        if file.filename == '':
+            return jsonify({"error": "No selected file"}), 400
+
+        # Check if the file has an allowed extension
+        if not allowed_file(file.filename):
+            return jsonify({"error": "Invalid file type. Only .xlsx and .xls files are allowed."}), 400
+
+        try:
+            # Read the Excel file into a DataFrame
+            df = pd.read_excel(file)
+
+            # Ensure the DataFrame has exactly two columns
+            if len(df.columns) != 2:
+                return jsonify({"error": "The Excel file must have exactly two columns: Course ID and Units."}), 400
+
+            # Convert the DataFrame to a dictionary
+            course_dict = dict(zip(df.iloc[:, 0], df.iloc[:, 1]))
+
+            return jsonify({"message": "File processed successfully", "data": course_dict}), 200
+
+        except Exception as e:
+            return jsonify({"error": f"An error occurred: {str(e)}"}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
