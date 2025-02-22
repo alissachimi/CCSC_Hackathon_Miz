@@ -1,0 +1,375 @@
+/* General body styling */
+body {
+    background: radial-gradient(circle, rgb(56, 56, 56) 0%, rgb(4, 4, 4) 100%);
+    color: #f9f9f9;
+    height: 100vh;
+    display: flex;
+    font-family: serif;
+    overflow: hidden;
+    margin: 0;
+    position: relative;
+}
+
+h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 10px;
+    text-shadow: 0 0 3px rgba(255, 223, 0, 0.2), 0 0 6px rgba(255, 223, 0, 0.3);
+    animation: glow 3s ease-in-out infinite alternate, fadeIn 2s ease-out;
+}
+
+.background-card {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    height: 90%;
+    background-color: rgb(24, 24, 24);
+    border-radius: 20px;
+    padding: 30px;
+    padding-top: 10px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 50px rgba(125, 96, 0, 0.621);
+    animation: cardGlow 4s ease-in-out infinite alternate;
+    margin: auto auto;
+}
+
+@keyframes cardGlow {
+    0% {
+        box-shadow: 0 0 50px rgba(255, 223, 0, 0.5);
+    }
+    100% {
+        box-shadow: 0 0 80px rgba(255, 223, 0, 0.8);
+    }
+}
+
+@keyframes glow {
+    0% {
+        text-shadow: 0 0 15px rgba(255, 223, 0, 0.2), 0 0 30px rgba(255, 223, 0, 0.3);
+    }
+    100% {
+        text-shadow: 0 0 25px rgba(255, 223, 0, 0.4), 0 0 45px rgba(255, 223, 0, 0.5);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Modal styling */
+.modal-content {
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    background-color: #ffffff;
+    color: #333;
+    border: none;
+}
+
+.modal-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    border-radius: 15px 15px 0 0;
+    padding: 25px 20px;
+}
+
+.modal-title {
+    font-weight: 600;
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.modal-body {
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 0 0 15px 15px;
+}
+
+/* List card styling */
+.list-card {
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    overflow: hidden;
+}
+
+.list-items-container {
+    display: flex;
+    flex-direction: column;
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.list-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+    height: auto;
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    padding: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.list-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f1f1f1;
+}
+
+.list-item h5 {
+    font-size: 12px;
+    color: #666;
+    margin: 0;
+    align-self: flex-start;
+}
+
+.list-item h4 {
+    font-size: 16px;
+    color: #333;
+    margin: 5px 0 0 0;
+    align-self: flex-start;
+}
+
+/* Info card styling */
+.info-card {
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.info-card h4 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+/* Description card */
+.description-card {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 15px;
+    background-color: #ffffff;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.description-card p {
+    font-size: 14px;
+    color: #555;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Availability progress bar */
+.availability-container {
+    margin-bottom: 15px;
+}
+
+.availability-label {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.availability-bar {
+    width: 100%;
+    height: 10px;
+    background-color: #e9ecef;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+}
+
+.availability-progress {
+    height: 100%;
+    border-radius: 5px;
+    width: 0;
+    transition: width 0.5s ease-in-out;
+}
+
+/* Minor buttons styling */
+.minor-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.minor-button {
+    background-color: #c7d6c7;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.minor-button:hover {
+    background-color: #45a049;
+}
+
+/* Minor popup styling */
+.minor-popup {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    width: 250px;
+    margin-top: 10px;
+}
+
+.popup-content h6 {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.class-status-taken, .class-status-planned, .class-status-needed {
+    padding: 5px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    font-size: 12px;
+    color: #fff;
+}
+
+.class-status-taken {
+    background-color: #4caf50; /* Green for taken */
+}
+
+.class-status-planned {
+    background-color: #ffbb33; /* Yellow for planned */
+}
+
+.class-status-needed {
+    background-color: #ff4444; /* Red for needed */
+}
+
+/* Minors list as colored boxes */
+.minors-list {
+    margin-bottom: 15px;
+}
+
+.minors-list h5 {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.minors-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.minors-list li {
+    font-size: 12px;
+    color: #fff;
+    background-color: #4caf50;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    transition: background-color 0.2s ease;
+}
+
+.minors-list li:hover {
+    background-color: #45a049;
+}
+
+/* Tooltip for additional classes */
+.minors-list li:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 10;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 200px;
+    text-align: center;
+}
+
+/* Colors for additional classes */
+.class-status-taken {
+    background-color: #4caf50;
+}
+
+.class-status-planned {
+    background-color: #ffbb33;
+}
+
+.class-status-needed {
+    background-color: #ff4444;
+}
+
+.close {
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #aaa;
+    position: absolute;
+    top: 0px;
+    right: 15px;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+}
+
+/* Scrollbar styling */
+.list-items-container::-webkit-scrollbar {
+    width: 8px; /* Vertical scrollbar width */
+}
+
+.list-items-container::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Light gray track */
+    border-radius: 5px;
+}
+
+.list-items-container::-webkit-scrollbar-thumb {
+    background: #ccc; /* Gray scrollbar handle */
+    border-radius: 5px;
+}
+
+.list-items-container::-webkit-scrollbar-thumb:hover {
+    background: #999; /* Darker handle on hover */
+}

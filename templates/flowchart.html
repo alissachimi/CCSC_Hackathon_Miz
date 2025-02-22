@@ -5,93 +5,254 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ElectiveWizard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/css/style.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Roboto:wght@400&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <style>
-        body {
-            background: radial-gradient(circle, rgb(56, 56, 56) 0%, rgb(4, 4, 4) 100%);
-            color: #f9f9f9;
-            height: 100vh;
-            display: flex;
-            font-family: serif;
-            overflow: hidden;
-            margin: 0;
-            position: relative;
-        }
-
-        h1 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 2rem;
-            font-weight: 600;
-            color: #ffffff; /* Soft golden color */
-            margin-bottom: 10px;
-            text-shadow: 0 0 3px rgba(255, 223, 0, 0.2), 0 0 6px rgba(255, 223, 0, 0.3);
-            animation: glow 3s ease-in-out infinite alternate, fadeIn 2s ease-out;
-        }
-
-        .background-card {
-            display: flex;
-            flex-direction: column;
-            position: absolute;
-            top: 50%; /* Center card vertically */
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90%;
-            height: 90%;
-            background-color: rgb(24, 24, 24);
-            border-radius: 20px;
-            padding: 30px;
-            padding-top: 10px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 0 50px rgba(125, 96, 0, 0.621);
-            animation: cardGlow 4s ease-in-out infinite alternate;
-            margin: auto auto;
-        }
-        /* Card Animation */
-        @keyframes cardGlow {
-            0% {
-                box-shadow: 0 0 50px rgba(255, 223, 0, 0.5);
-            }
-            100% {
-                box-shadow: 0 0 80px rgba(255, 223, 0, 0.8);
-            }
-        }
-
-        @keyframes glow {
-            0% {
-                text-shadow: 0 0 15px rgba(255, 223, 0, 0.2), 0 0 30px rgba(255, 223, 0, 0.3);
-            }
-            100% {
-                text-shadow: 0 0 25px rgba(255, 223, 0, 0.4), 0 0 45px rgba(255, 223, 0, 0.5);
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-    </style>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
     <div class="background-card">
         <h1>{{major}}</h1>
+        <button id="openModalBtn" data-toggle="modal" data-target="#myModal">elective</button>
     </div>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="list-card">
+                                <div class="list-items-container" id="electiveList">
+                                    <!-- Elective items will be dynamically inserted here -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6" id="electiveDetails">
+                            <div class="info-card">
+                                <h4 id="detailTitle"></h4>
+                                <div id="detailDescription"></div>
+                                <div id="detailAvailability"></div>
+                                <div id="detailMinor"></div>
+                                <p><strong>Prerequisite:</strong> <span id="detailPrereq"></span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const items = [
+            {
+                id: 'CS_101',
+                name: 'Introduction to Programming',
+                description: 'A foundational course covering basic programming concepts, syntax, and problem-solving using Python.',
+                availability: 0.95,
+                minor: 'Yes',
+                prereq: 'None'
+            },
+            {
+                id: 'CS_201',
+                name: 'Data Structures and Algorithms',
+                description: 'Explores fundamental data structures (arrays, linked lists, trees, graphs) and algorithms (sorting, searching) with a focus on implementation and analysis.',
+                availability: 0.8,
+                minor: 'Yes',
+                prereq: 'Introduction to Programming'
+            },
+            {
+                id: 'CS_301',
+                name: 'Object-Oriented Programming',
+                description: 'Introduces object-oriented principles (encapsulation, inheritance, polymorphism) using Java or C++.',
+                availability: 0.75,
+                minor: 'Yes',
+                prereq: 'Introduction to Programming'
+            },
+            {
+                id: 'CS_350',
+                name: 'Database Systems',
+                description: 'Covers database design, SQL, and database management systems, including relational and NoSQL databases.',
+                availability: 0.6,
+                minor: 'Yes',
+                prereq: 'Data Structures and Algorithms'
+            },
+            {
+                id: 'CS_330',
+                name: 'Computer Networks',
+                description: 'Explores the principles of computer networking, including protocols, network architectures, and security.',
+                availability: 0.5,
+                minor: 'Yes',
+                prereq: 'Data Structures and Algorithms'
+            },
+            {
+                id: 'CS_401',
+                name: 'Operating Systems',
+                description: 'Covers the concepts and design of operating systems, including process management, memory management, and file systems.',
+                availability: 0.4,
+                minor: 'Yes',
+                prereq: 'Data Structures and Algorithms'
+            },
+            {
+                id: 'CS_450',
+                name: 'Software Engineering',
+                description: 'Introduces software development methodologies, project management, and software testing.',
+                availability: 0.7,
+                minor: 'Yes',
+                prereq: 'Object-Oriented Programming'
+            },
+            {
+                id: 'CS_470',
+                name: 'Artificial Intelligence',
+                description: 'An introduction to AI concepts, including machine learning, neural networks, and natural language processing.',
+                availability: 0.3,
+                minor: 'Yes',
+                prereq: 'Data Structures and Algorithms, Linear Algebra'
+            },
+            {
+                id: 'CS_250',
+                name: 'Web Development',
+                description: 'Covers front-end and back-end web development using HTML, CSS, JavaScript, and a server-side framework.',
+                availability: 0.85,
+                minor: 'Yes',
+                prereq: 'Introduction to Programming'
+            },
+            {
+                id: 'CS_430',
+                name: 'Cybersecurity Fundamentals',
+                description: 'An introductory class covering basic cybersecurity concepts, threats, and mitigation techniques.',
+                availability: 0.65,
+                minor: 'Yes',
+                prereq: 'Computer Networks'
+            }
+        ];
+
+        function loadElectives() {
+            const electiveList = $('#electiveList');
+            electiveList.empty();
+
+            items.forEach(item => {
+                const red = Math.round(200 + (55 * (1 - item.availability)));
+                const green = Math.round(200 + (55 * item.availability));
+                const color = `rgba(${red}, ${green}, 200, 0.5)`;
+                const card = `
+                    <div class="list-item" data-id="${item.id}" style="background-color: ${color}">
+                        <h5>${item.id}</h5>
+                        <h4>${item.name}</h4>
+                    </div>
+                `;
+                electiveList.append(card);
+            });
+        }
+
+        function showElectiveDetails(id) {
+            const item = items.find(i => i.id === id);
+            if (item) {
+                // Update title
+                $('#detailTitle').text(item.name);
+
+                // Update description
+                $('#detailDescription').html(`
+                    <div class="description-card">
+                        <p>${item.description}</p>
+                    </div>
+                `);
+
+                // Update availability with dynamic color
+                const availabilityPercent = Math.round(item.availability * 100);
+                const progressColor = availabilityPercent < 50 ? '#ff4444' : availabilityPercent < 75 ? '#ffbb33' : '#4caf50';
+                $('#detailAvailability').html(`
+                    <div class="availability-container">
+                        <div class="availability-label">Availability: ${availabilityPercent}%</div>
+                        <div class="availability-bar">
+                            <div class="availability-progress" style="width: ${availabilityPercent}%; background-color: ${progressColor}"></div>
+                        </div>
+                    </div>
+                `);
+
+                // Update minors list as buttons with popups
+                const minors = item.minor === 'Yes' ? ['Computer Science', 'Data Science', 'Cybersecurity'] : ['None'];
+                const minorsHtml = minors.map(minor => `
+                    <button class="minor-button" data-minor="${minor}">${minor}</button>
+                `).join('');
+                $('#detailMinor').html(`
+                    <div class="minors-list">
+                        <h5>Counts Towards Minors:</h5>
+                        <div class="minor-buttons">${minorsHtml}</div>
+                        <div id="minorPopup" class="minor-popup"></div>
+                    </div>
+                `);
+
+                // Add click handlers for minor buttons
+                $('.minor-button').on('click', function () {
+                    const minor = $(this).data('minor');
+                    const additionalClasses = getAdditionalClasses(minor);
+                    $('#minorPopup').html(`
+                        <div class="popup-content">
+                            <h6>Additional Required Classes for ${minor}:</h6>
+                            ${additionalClasses}
+                        </div>
+                    `).fadeIn(200);
+                });
+
+                // Close popup when clicking outside
+                $(document).on('click', function (e) {
+                    if (!$(e.target).closest('.minor-button, #minorPopup').length) {
+                        $('#minorPopup').fadeOut(200);
+                    }
+                });
+
+                // Update prerequisite
+                $('#detailPrereq').text(item.prereq);
+            }
+        }
+
+        // Helper function to get additional classes for minors
+        function getAdditionalClasses(minor) {
+            const additionalClasses = {
+                'Computer Science': `
+                    <div class="class-status-taken">CS 101 (Taken)</div>
+                    <div class="class-status-planned">CS 201 (Planned)</div>
+                    <div class="class-status-needed">CS 301 (Need)</div>
+                `,
+                'Data Science': `
+                    <div class="class-status-taken">DS 101 (Taken)</div>
+                    <div class="class-status-needed">DS 201 (Need)</div>
+                    <div class="class-status-needed">MATH 101 (Need)</div>
+                `,
+                'Cybersecurity': `
+                    <div class="class-status-taken">CS 101 (Taken)</div>
+                    <div class="class-status-planned">CS 430 (Planned)</div>
+                    <div class="class-status-needed">MATH 101 (Need)</div>
+                `
+            };
+            return additionalClasses[minor] || 'None';
+        }
+
+        // Auto-load the first item's details when the modal opens
+        $('#myModal').on('shown.bs.modal', function () {
+            if (items.length > 0) {
+                const firstItem = items[0];
+                showElectiveDetails(firstItem.id);
+            }
+        });
+
+        // Load electives and set up click handlers
+        $(document).ready(function () {
+            loadElectives();
+            $('#electiveList').on('click', '.list-item', function () {
+                const id = $(this).data('id');
+                showElectiveDetails(id);
+            });
+        });
+    </script>
 </body>
 </html>
