@@ -42,15 +42,15 @@ def create_db():
     ''')
 
     class_data = [
-            ("CS1050", "Intro to Computer Science", "CS", "Dr. Jim Ries"),
-            ("CS4520", "Operating Systems", "CS", "Dr. Jim Ries"),
-            ("CS3200", "Software Engineering I", "CS", "Dr. Abdelnasser Ouda"),
-            ("BIO101", "Intro to Biology", "Biology", "Dr. Johnson")
+            ("CS1050", "Intro to Computer Science", "CS"),
+            ("CS4520", "Operating Systems", "CS"),
+            ("CS3200", "Software Engineering I", "CS"),
+            ("BIO101", "Intro to Biology", "Biology")
         ]
 
     cursor.executemany('''
-        INSERT OR IGNORE INTO class (id, name, dept, professor)
-        VALUES (?, ?, ?, ?)
+        INSERT OR IGNORE INTO class (id, name, dept)
+        VALUES (?, ?, ?)
     ''', class_data)
 
     prereqs_data = [
