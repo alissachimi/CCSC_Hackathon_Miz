@@ -9,8 +9,7 @@ def create_db():
         CREATE TABLE IF NOT EXISTS class (
             id TEXT PRIMARY KEY,
             name TEXT NOT NULL,
-            dept TEXT NOT NULL,
-            professor TEXT NOT NULL
+            dept TEXT NOT NULL
         )
     ''')
 
