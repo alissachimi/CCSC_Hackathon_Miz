@@ -3,9 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flask App</title>
+    <title>ElectiveWizard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Roboto:wght@400&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            color: #f9f9f9;
+            height: 100vh;
+            display: flex;
+            justify-content: center; /* Horizontally center */
+            align-items: center; /* Vertically center */
+            font-family: serif;
+            overflow: hidden;
+            margin: 0;
+            position: relative;
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 5rem;
+            font-weight: 600;
+            color: #f0c300; /* Soft golden color */
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(255, 223, 0, 0.2), 0 0 30px rgba(255, 223, 0, 0.3);
+            animation: glow 3s ease-in-out infinite alternate, fadeIn 2s ease-out;
+        }
+
+        h4 {
+            font-family: 'Cormorant Garamond', serif;
+            animation: glow 3s ease-in-out infinite alternate, fadeIn 2s ease-out;
+            margin-bottom: 50px;
+            color: white;
+        }
+
+        .selector {
+            width: 350px;
+            padding: 15px 20px;
+            font-size: 1.3rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 2px solid #f0c300;
+            border-radius: 10px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(255, 223, 0, 0.5);
+            transition: all 0.3s ease-in-out;
+            animation: slideIn 1.5s ease-in-out;
+            margin: auto auto;
+        }
+
+        .selector:hover, .selector:focus {
+            border-color: #f0c300;
+            box-shadow: 0 0 25px rgba(255, 223, 0, 0.8);
+            outline: none;
+        }
+
+        .selector option {
+            background-color: #585858;
+            border: none;
+        }
+
+        .background-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Vertically center the content inside the card */
+            align-items: center; /* Horizontally center the content inside the card */
+            position: absolute;
+            top: 50%; /* Center card vertically */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 700px;
+            height: 80%;
+            background-color: rgb(24, 24, 24);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 50px rgba(145, 116, 0, 0.621);
+            animation: cardGlow 4s ease-in-out infinite alternate;
+        }
+
+        .submit-btn {
+            padding: 5px 25px;
+            background-color: #f0c4008d;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .submit-btn:hover {
+            background-color: #e0a800;
+            box-shadow: 0 0 25px rgba(255, 223, 0, 0.8);
+        }
+
+        /* Card Animation */
+        @keyframes cardGlow {
+            0% {
+                box-shadow: 0 0 50px rgba(255, 223, 0, 0.5);
+            }
+            100% {
+                box-shadow: 0 0 80px rgba(255, 223, 0, 0.8);
+            }
+        }
+
+        @keyframes glow {
+            0% {
+                text-shadow: 0 0 15px rgba(255, 223, 0, 0.2), 0 0 30px rgba(255, 223, 0, 0.3);
+            }
+            100% {
+                text-shadow: 0 0 25px rgba(255, 223, 0, 0.4), 0 0 45px rgba(255, 223, 0, 0.5);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to Flask!</h1>
+    <div class="background-card">
+        <h1>MizWizard</h1>
+        <h4>Unlock the Magic of Smart Scheduling</h4>
+        <form method="POST" action="/flowchart" id="major-form">
+            <div class="container text-center">
+                <select class="form-select selector" id="major-selection" name="major">
+                    <option selected disabled>Choose your major</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Information Technology">Information Technology</option>
+                    <option value="Mechanical Engineering">Mechanical Engineering</option>
+                </select>
+                <button type="submit" class="submit-btn">Submit</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Ensure the selected option is sent with the form data
+        document.getElementById("major-form").addEventListener("submit", function(event) {
+            const selectedValue = document.getElementById("major-selection").value;
+            if (!selectedValue) {
+                event.preventDefault(); // Prevent form submission if no option is selected
+                alert("Please select a major before submitting!");
+            }
+        });
+    </script>
 </body>
 </html>
