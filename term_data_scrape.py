@@ -1,9 +1,20 @@
 import asyncio
 from playwright.async_api import async_playwright
-from bs4 import BeautifulSoup
+import sqlite3
 
-async def scrape(page):
+def insert_terms(subject, terms):
+    # Connect the cursor
+    conn = sqlite3.connect('college.db')
+    cursor = conn.cursor()
+
+    # Insert terms into table
+    cursor.execute()
+    print(subject)
+    print(terms)
+
+async def scrape(subject, id, page):
     terms_seen = set()
+    await page.wait_for_selector('table tbody tr', timeout=10000)  # Wait until table rows are visible
     rows = await page.query_selector_all('table tbody tr')
     await page.wait_for_load_state('networkidle', timeout=10000)  # Wait for the network to be idle (10 seconds)
 
@@ -16,12 +27,12 @@ async def scrape(page):
                     terms_seen.add(term_text)
     
     sorted_terms = sorted(terms_seen, key=lambda term: int(term[2:]), reverse=True)
-    print(sorted_terms)
+    insert_terms(subject + id, sorted_terms)
 
-async def run(subject, id):
+async def navigate(subject, id):
     async with async_playwright() as p:
         # Launch browser
-        browser = await p.chromium.launch(headless=False)
+        browser = await p.chromium.launch(headless=True)
         page = await browser.new_page()
 
         # Navigate to the URL
@@ -35,7 +46,7 @@ async def run(subject, id):
         await page.click('input#submit')
 
         # Scrape data
-        await scrape(page)
+        await scrape(subject, id, page)
 
         # Wait for some action or verification
         await page.wait_for_timeout(2000)  # Wait for 2 seconds
@@ -43,5 +54,5 @@ async def run(subject, id):
         # Close browser
         await browser.close()
 
-asyncio.run(run('CMP_SC', '1050'))
+asyncio.run(navigate('CMP_SC', '1050'))
 
