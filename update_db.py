@@ -17,11 +17,10 @@ cursor.execute('''
 cursor.execute(''' 
     CREATE TABLE IF NOT EXISTS required_class (
         class_id TEXT NOT NULL,
-        program_type TEXT NOT NULL,
+        program_name TEXT NOT NULL,
         rec_semester INTEGER,
         PRIMARY KEY (class_id),
-        FOREIGN KEY (class_id) REFERENCES class(id) ON DELETE CASCADE,
-        FOREIGN KEY (program_type) REFERENCES programs(program_type) ON DELETE CASCADE
+        FOREIGN KEY (class_id) REFERENCES class(id) ON DELETE CASCADE
     )
 ''')
 
@@ -31,6 +30,7 @@ cursor.execute('''
         class_id TEXT NOT NULL,
         program_type TEXT NOT NULL,
         rec_semester INTEGER,
+        level INTEGER,
         PRIMARY KEY (class_id),
         FOREIGN KEY (class_id) REFERENCES class(id) ON DELETE CASCADE,
         FOREIGN KEY (program_type) REFERENCES programs(program_type) ON DELETE CASCADE
