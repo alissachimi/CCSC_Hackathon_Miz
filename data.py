@@ -16,7 +16,7 @@ cursor.executemany('''
 
 requirements = [
     ("CMP_SC1050", "Bachelor of Science - Computer Science", 1),
-    ("MATH1500", "Bachelor of Science - Computer Science", 1)
+    ("MATH1500", "Bachelor of Science - Computer Science", 1),
     ("CMP_SC2050", "Bachelor of Science - Computer Science", 2),
     ("CMP_SC2270", "Bachelor of Science - Computer Science", 2),
     ("MATH1700", "Bachelor of Science - Computer Science", 2),
@@ -34,7 +34,7 @@ requirements = [
 ]
 
 cursor.executemany('''
-        INSERT OR IGNORE INTO required_class (class_id, program_type, rec_semester)
+        INSERT OR IGNORE INTO required_class (class_id, program_name, rec_semester)
         VALUES (?, ?, ?)
     ''', requirements)
 
