@@ -12,6 +12,10 @@
     <div class="background-card">
         <h1>Minor Recommender</h1>
 
+        <div id="loadingGIF" style="display: none; text-align: center;">
+            <img src="static/loading_animation_1.gif" alt="Loading..." width="200">
+        </div>
+
         <!-- Upload Box -->
         <form action="/minor_recomendation" method="POST" enctype="multipart/form-data" class="upload-box" id="uploadForm">
             <input type="file" id="fileInput" name="file" accept=".xlsx, .xls" >
@@ -37,8 +41,20 @@
         const minorList = document.getElementById("minorList");
 
         if (allProgress && allProgress.length > 0) {
-            minorList.style.display = "block";
-            document.getElementById("uploadForm").style.display="none"
+            // Hide the form and show the GIF
+            document.getElementById("uploadForm").style.display = "none";
+            document.getElementById("loadingGIF").style.display = "block";
+
+            // Simulate a delay of 3 seconds before showing the minor list
+            setTimeout(() => {
+                document.getElementById("loadingGIF").style.display = "none";
+                document.getElementById("minorList").style.display = "block";
+
+                // Submit the form programmatically (if needed)
+                this.submit();
+                
+            }, 3000);
+
 
             allProgress.forEach(minor => {
                 const minorItem = document.createElement("div");
