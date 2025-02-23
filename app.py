@@ -108,8 +108,17 @@ def fetch_courses_for_category(category_id):
 def get_electives_from_db(major):
     conn = sqlite3.connect("college.db")
     cursor = conn.cursor()
-    query = "SELECT e.class_id, c.name, e.description, e.availability FROM elective_class e JOIN class c ON c.id = e.class_id"
-
+    query = '''
+        SELECT 
+            e.class_id, 
+            c.name, 
+            e.description, 
+            e.availability, 
+            IFNULL(GROUP_CONCAT(p.prereq_id, ', '), 'None') AS prereq
+        FROM elective_class e
+        JOIN class c ON c.id = e.class_id
+        LEFT JOIN prereqs p ON e.class_id = p.class_id
+    '''
     if major:
         query += " WHERE e.program_name = ?"
         params = (major,)
@@ -125,7 +134,7 @@ def get_electives_from_db(major):
             "description": row[2],
             "availability": row[3],
             "minor": 'Yes',
-            "prereq": 'None',
+            "prereq": row[4],
             "required": False
         }
         for row in electives_list
