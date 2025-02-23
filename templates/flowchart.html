@@ -61,20 +61,43 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div id="freshman-fall" class="year-column class-grid">
-                                <div class="class-card filled" id="slot-0-0">Math_101</div>
-                                <div class="class-card filled" id="slot-0-1">CS_101</div>
-                                <div class="class-card empty" id="slot-0-2" onclick="cardClicked(this)"></div>
-                                <div class="class-card empty" id="slot-0-3" onclick="cardClicked(this)"></div>
-                                <div class="class-card empty" id="slot-0-4" onclick="cardClicked(this)"></div>
+                                <!-- dynamic allocation for recommended classes -->
+                                {% set total_class_slots = 5 %}
+                                {% set filled_class_slots = namespace(value=0) %}
+
+                                <!-- update value compared on right side of equality operator below for each semester -->
+                                {% for class in classes %}
+                                    {% if filled_class_slots.value < total_class_slots %}
+                                        {% if class[2] == 1 %}
+                                            <div class="class-card filled" id="slot-0-{{ filled_class_slots.value }}">{{class[0]}}</div>
+                                            {% set filled_class_slots.value=filled_class_slots.value+1 %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                                <!-- fill all remaining class slots -->
+                                {% for i in range(filled_class_slots.value, total_class_slots) %}
+                                <div class="class-card empty" id="slot-0-{{ i }}" onclick="cardClicked(this)"></div>
+                                {% endfor %}
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div id="freshman-spring" class="year-column class-grid">
-                                <div class="class-card empty" id="slot-1-0" onclick="cardClicked(this)"></div>
-                                <div class="class-card empty" id="slot-1-1" onclick="cardClicked(this)"></div>
-                                <div class="class-card empty" id="slot-1-2" onclick="cardClicked(this)"></div>
-                                <div class="class-card empty" id="slot-1-3" onclick="cardClicked(this)"></div>
-                                <div class="class-card empty" id="slot-1-4" onclick="cardClicked(this)"></div>
+                                <!-- dynamic allocation for recommended classes -->
+                                {% set filled_class_slots = namespace(value=0) %}
+
+                                <!-- update value compared on right side of equality operator below for each semester -->
+                                {% for class in classes %}
+                                    {% if filled_class_slots.value < total_class_slots %}
+                                        {% if class[2] == 2 %}
+                                            <div class="class-card filled" id="slot-1-{{ filled_class_slots.value }}">{{class[0]}}</div>
+                                            {% set filled_class_slots.value=filled_class_slots.value+1 %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                                <!-- fill all remaining class slots -->
+                                {% for i in range(filled_class_slots.value, total_class_slots) %}
+                                <div class="class-card empty" id="slot-1-{{ i }}" onclick="cardClicked(this)"></div>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
@@ -83,19 +106,41 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div id="sophomore-fall" class="year-column class-grid">
-                                <div class="class-card filled" id="slot-2-0">CS_202</div>
-                                <div class="class-card filled" id="slot-2-1">CS_203</div>
-                                <div class="class-card empty" id="slot-2-2" onclick="cardClicked(this)"></div>
-                                <div class="class-card empty" id="slot-2-3" onclick="cardClicked(this)"></div>
-                                <div class="class-card empty" id="slot-2-4" onclick="cardClicked(this)"></div>
+                                <!-- dynamic allocation for recommended classes -->
+                                {% set filled_class_slots = namespace(value=0) %}
+
+                                <!-- update value compared on right side of equality operator below for each semester -->
+                                {% for class in classes %}
+                                    {% if filled_class_slots.value < total_class_slots %}
+                                        {% if class[2] == 3 %}
+                                            <div class="class-card filled" id="slot-2-{{ filled_class_slots.value }}">{{class[0]}}</div>
+                                            {% set filled_class_slots.value=filled_class_slots.value+1 %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                                <!-- fill all remaining class slots -->
+                                {% for i in range(filled_class_slots.value, total_class_slots) %}
+                                <div class="class-card empty" id="slot-2-{{ i }}" onclick="cardClicked(this)"></div>
+                                {% endfor %}
                         </div>
                         <div class="col-md-6">
                             <div id="sophomore-spring" class="year-column class-grid">
-                                <div class="class-card empty" id="slot-3-0" onclick="cardClicked(this)"></div>
-                                <div class="class-card empty" id="slot-3-1" onclick="cardClicked(this)"></div>
-                                <div class="class-card empty" id="slot-3-2" onclick="cardClicked(this)"></div>
-                                <div class="class-card empty" id="slot-3-3" onclick="cardClicked(this)"></div>
-                                <div class="class-card empty" id="slot-3-4" onclick="cardClicked(this)"></div>
+                                <!-- dynamic allocation for recommended classes -->
+                                {% set filled_class_slots = namespace(value=0) %}
+
+                                <!-- update value compared on right side of equality operator below for each semester -->
+                                {% for class in classes %}
+                                    {% if filled_class_slots.value < total_class_slots %}
+                                        {% if class[2] == 4 %}
+                                            <div class="class-card filled" id="slot-3-{{ filled_class_slots.value }}">{{class[0]}}</div>
+                                            {% set filled_class_slots.value=filled_class_slots.value+1 %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                                <!-- fill all remaining class slots -->
+                                {% for i in range(filled_class_slots.value, total_class_slots) %}
+                                <div class="class-card empty" id="slot-3-{{ i }}" onclick="cardClicked(this)"></div>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
@@ -104,20 +149,42 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div id="junior-fall" class="year-column class-grid">
-                                <div class="class-card filled" id="slot-4-0">Physics_301</div>
-                                <div class="class-card filled" id="slot-4-1">Math_302</div>
-                                <div class="class-card empty" id="slot-4-2" onclick="cardClicked(this)"></div>
-                                <div class="class-card empty" id="slot-4-3" onclick="cardClicked(this)"></div>
-                                <div class="class-card empty" id="slot-4-4" onclick="cardClicked(this)"></div>
+                                <!-- dynamic allocation for recommended classes -->
+                                {% set filled_class_slots = namespace(value=0) %}
+
+                                <!-- update value compared on right side of equality operator below for each semester -->
+                                {% for class in classes %}
+                                    {% if filled_class_slots.value < total_class_slots %}
+                                        {% if class[2] == 5 %}
+                                            <div class="class-card filled" id="slot-4-{{ filled_class_slots.value }}">{{class[0]}}</div>
+                                            {% set filled_class_slots.value=filled_class_slots.value+1 %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                                <!-- fill all remaining class slots -->
+                                {% for i in range(filled_class_slots.value, total_class_slots) %}
+                                <div class="class-card empty" id="slot-4-{{ i }}" onclick="cardClicked(this)"></div>
+                                {% endfor %}
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div id="junior-spring" class="year-column class-grid">
-                                <div class="class-card empty" id="slot-5-0" onclick="cardClicked(this)"></div>
-                                <div class="class-card empty" id="slot-5-1" onclick="cardClicked(this)"></div>
-                                <div class="class-card empty" id="slot-5-2" onclick="cardClicked(this)"></div>
-                                <div class="class-card empty" id="slot-5-3" onclick="cardClicked(this)"></div>
-                                <div class="class-card empty" id="slot-5-4" onclick="cardClicked(this)"></div>
+                                <!-- dynamic allocation for recommended classes -->
+                                {% set filled_class_slots = namespace(value=0) %}
+
+                                <!-- update value compared on right side of equality operator below for each semester -->
+                                {% for class in classes %}
+                                    {% if filled_class_slots.value < total_class_slots %}
+                                        {% if class[2] == 6 %}
+                                            <div class="class-card filled" id="slot-5-{{ filled_class_slots.value }}">{{class[0]}}</div>
+                                            {% set filled_class_slots.value=filled_class_slots.value+1 %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                                <!-- fill all remaining class slots -->
+                                {% for i in range(filled_class_slots.value, total_class_slots) %}
+                                <div class="class-card empty" id="slot-5-{{ i }}" onclick="cardClicked(this)"></div>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
@@ -126,20 +193,42 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div id="senior-fall" class="year-column class-grid">
-                                <div class="class-card filled" id="slot-6-0">Math_401</div>
-                                <div class="class-card filled" id="slot-6-1">CS_402</div>
-                                <div class="class-card empty" id="slot-6-2" onclick="cardClicked(this)"></div>
-                                <div class="class-card empty" id="slot-6-3" onclick="cardClicked(this)"></div>
-                                <div class="class-card empty" id="slot-6-4" onclick="cardClicked(this)"></div>
+                                <!-- dynamic allocation for recommended classes -->
+                                {% set filled_class_slots = namespace(value=0) %}
+
+                                <!-- update value compared on right side of equality operator below for each semester -->
+                                {% for class in classes %}
+                                    {% if filled_class_slots.value < total_class_slots %}
+                                        {% if class[2] == 7 %}
+                                            <div class="class-card filled" id="slot-6-{{ filled_class_slots.value }}">{{class[0]}}</div>
+                                            {% set filled_class_slots.value=filled_class_slots.value+1 %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                                <!-- fill all remaining class slots -->
+                                {% for i in range(filled_class_slots.value, total_class_slots) %}
+                                <div class="class-card empty" id="slot-6-{{ i }}" onclick="cardClicked(this)"></div>
+                                {% endfor %}
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div id="senior-spring" class="year-column class-grid">
-                                <div class="class-card empty" id="slot-7-0" onclick="cardClicked(this)"></div>
-                                <div class="class-card empty" id="slot-7-1" onclick="cardClicked(this)"></div>
-                                <div class="class-card empty" id="slot-7-2" onclick="cardClicked(this)"></div>
-                                <div class="class-card empty" id="slot-7-3" onclick="cardClicked(this)"></div>
-                                <div class="class-card empty" id="slot-7-4" onclick="cardClicked(this)"></div>
+                                <!-- dynamic allocation for recommended classes -->
+                                {% set filled_class_slots = namespace(value=0) %}
+
+                                <!-- update value compared on right side of equality operator below for each semester -->
+                                {% for class in classes %}
+                                    {% if filled_class_slots.value < total_class_slots %}
+                                        {% if class[2] == 8 %}
+                                            <div class="class-card filled" id="slot-7-{{ filled_class_slots.value }}">{{class[0]}}</div>
+                                            {% set filled_class_slots.value=filled_class_slots.value+1 %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                                <!-- fill all remaining class slots -->
+                                {% for i in range(filled_class_slots.value, total_class_slots) %}
+                                <div class="class-card empty" id="slot-7-{{ i }}" onclick="cardClicked(this)"></div>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>

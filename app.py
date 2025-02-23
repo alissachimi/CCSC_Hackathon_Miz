@@ -147,8 +147,10 @@ def home():
 def flowchart():
     major = request.form.get('major')
     if major:
+        classes = get_degree_requirements(major)
+        
         # add logic here to process the major selection
-        return render_template('flowchart.html', major=major)
+        return render_template('flowchart.html', major=major, classes=classes)
     return "No major selected."
 
 # Allowed file extensions
@@ -253,6 +255,22 @@ def calculate_minor_progress(minor_id, minor_categories, minor_courses, taken_co
 
     return progress
 
+# send required classes for the user's selected major to flowchart.html
+def get_degree_requirements(major):
+    degree_name = "Bachelor of Science - " + major
+    conn = sqlite3.connect('college.db')
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        SELECT *
+        FROM required_class
+        WHERE program_name = ?
+        ORDER BY rec_semester ASC
+    ''', (degree_name,))
+
+    required_classes = cursor.fetchall()
+    conn.close()
+    return required_classes
 
 if __name__ == '__main__':
     app.run(debug=True)
