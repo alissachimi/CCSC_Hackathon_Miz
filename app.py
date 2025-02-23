@@ -160,8 +160,7 @@ def get_electives_from_db(major):
         '''
         cursor.execute(prereq_query, (class_id,))
         prereqs = cursor.fetchall()
-        print(class_id)
-        print(prereqs)
+
         # Convert prerequisites to a comma-separated string
         prereq_ids = [str(row[0]) for row in prereqs]  # Convert IDs to strings
         if not prereq_ids:
