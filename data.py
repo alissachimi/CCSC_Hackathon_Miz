@@ -112,6 +112,12 @@ cursor.executemany('''
         VALUES (?, ?, ?, ?, ?)
     ''', electives)
 
+cursor.executemany('''
+    UPDATE elective_class 
+    SET description = ? 
+    WHERE class_id = ?
+''', [(elective[4], elective[0]) for elective in electives])
+
 conn.commit()
 conn.close()
 print("Database updated successfully!")

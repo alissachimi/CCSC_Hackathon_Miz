@@ -274,16 +274,6 @@
     </div>
 
     <script>
-        const semesters = {
-            "semester1": [],
-            "semester2": [],
-            "semester3": [],
-            "semester4": [],
-            "semester5": [],
-            "semester6": [],
-            "semester7": [],
-            "semester8": []
-        };
 
         // Initialize Sortable for all year columns
         document.querySelectorAll('.class-grid').forEach(column => {
@@ -332,107 +322,17 @@
 
         function loadItems(){
             let major = "Bachelor of Science - " + document.getElementById("major-name").innerHTML;
-            fetch(`/get_electives?major=${encodeURIComponent(major)}`)
-            .then(response => response.json())
-            .then(data => {
-                items.length = 0; 
-                items.push(...data);
-            })
-            .catch(error => console.error("Error fetching courses:", error));
+            return fetch(`/get_electives?major=${encodeURIComponent(major)}`)
+                .then(response => response.json())
+                .then(data => {
+                    items.length = 0; // Clear array
+                    items.push(...data);
+                    console.log("Items loaded:", items);
+                })
+                .catch(error => console.error("Error fetching courses:", error));
         }
 
-        const items = [
-            {
-                id: 'CS_101',
-                name: 'Introduction to Programming',
-                description: 'A foundational course covering basic programming concepts, syntax, and problem-solving using Python.',
-                availability: 0.95,
-                minor: 'Yes',
-                prereq: 'None',
-                required:true
-            },
-            {
-                id: 'CS_201',
-                name: 'Data Structures and Algorithms',
-                description: 'Explores fundamental data structures (arrays, linked lists, trees, graphs) and algorithms (sorting, searching) with a focus on implementation and analysis.',
-                availability: 0.8,
-                minor: 'Yes',
-                prereq: 'Introduction to Programming',
-                required:false
-            },
-            {
-                id: 'CS_301',
-                name: 'Object-Oriented Programming',
-                description: 'Introduces object-oriented principles (encapsulation, inheritance, polymorphism) using Java or C++.',
-                availability: 0.75,
-                minor: 'Yes',
-                prereq: 'Introduction to Programming',
-                required:true
-            },
-            {
-                id: 'CS_350',
-                name: 'Database Systems',
-                description: 'Covers database design, SQL, and database management systems, including relational and NoSQL databases.',
-                availability: 0.6,
-                minor: 'Yes',
-                prereq: 'Data Structures and Algorithms',
-                required:false
-            },
-            {
-                id: 'CS_330',
-                name: 'Computer Networks',
-                description: 'Explores the principles of computer networking, including protocols, network architectures, and security.',
-                availability: 0.5,
-                minor: 'Yes',
-                prereq: 'Data Structures and Algorithms',
-                required:false
-            },
-            {
-                id: 'CS_401',
-                name: 'Operating Systems',
-                description: 'Covers the concepts and design of operating systems, including process management, memory management, and file systems.',
-                availability: 0.4,
-                minor: 'Yes',
-                prereq: 'Data Structures and Algorithms',
-                required:false
-            },
-            {
-                id: 'CS_450',
-                name: 'Software Engineering',
-                description: 'Introduces software development methodologies, project management, and software testing.',
-                availability: 0.7,
-                minor: 'Yes',
-                prereq: 'Object-Oriented Programming',
-                required:false
-            },
-            {
-                id: 'CS_470',
-                name: 'Artificial Intelligence',
-                description: 'An introduction to AI concepts, including machine learning, neural networks, and natural language processing.',
-                availability: 0.3,
-                minor: 'Yes',
-                prereq: 'Data Structures and Algorithms, Linear Algebra',
-                required:false
-            },
-            {
-                id: 'CS_250',
-                name: 'Web Development',
-                description: 'Covers front-end and back-end web development using HTML, CSS, JavaScript, and a server-side framework.',
-                availability: 0.85,
-                minor: 'Yes',
-                prereq: 'Introduction to Programming',
-                required:false
-            },
-            {
-                id: 'CS_430',
-                name: 'Cybersecurity Fundamentals',
-                description: 'An introductory class covering basic cybersecurity concepts, threats, and mitigation techniques.',
-                availability: 0.65,
-                minor: 'Yes',
-                prereq: 'Computer Networks',
-                required:false
-            }
-        ];
+        let items = [];
 
         function loadElectives() {
             const electiveList = $('#electiveList');
@@ -548,8 +448,7 @@
 
         // Load electives and set up click handlers
         $(document).ready(function () {
-            loadItems();
-            loadElectives();
+            loadItems().then(loadElectives);
             $('#electiveList').on('click', '.list-item', function () {
                 const id = $(this).data('id');
                 showElectiveDetails(id);
