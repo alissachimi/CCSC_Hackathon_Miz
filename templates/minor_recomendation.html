@@ -65,8 +65,11 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <h5 class="card-title mb-0">${minor.minor_name}</h5>
                                 <div class="remaining-credits">
-                                    <span class="badge bg-warning text-dark fs-4">${minor.total_required_hours - minor.completed_hours}</span>
-                                    <span class="text-light ms-2">Credits Remaining</span>
+                                    ${minor.total_required_hours - minor.completed_hours === 0 
+                                        ? '<span class="text-success fs-4">&#10004;</span><span class="text-light ms-2">Credits Remaining</span>`'  // Checkmark if 0 remaining hours
+                                        : `<span class="badge bg-warning text-dark fs-4">${minor.total_required_hours - minor.completed_hours}</span>
+                                        <span class="text-light ms-2">Credits Remaining</span>`
+                                    }
                                 </div>
                             </div>
                         </div>
