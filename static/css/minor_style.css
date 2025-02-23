@@ -1,0 +1,264 @@
+body {
+    color: #f9f9f9;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: serif;
+    overflow: hidden;
+    margin: 0;
+    position: relative;
+    background-color: #ffffff;
+}
+
+h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 5rem;
+    font-weight: 600;
+    color: rgba(61, 61, 61, 0.411);
+    margin-bottom: 10px;
+    animation: fadeIn 2s ease-out;
+}
+
+h4 {
+    font-family: 'Cormorant Garamond', serif;
+    animation: glow 3s ease-in-out infinite alternate, fadeIn 2s ease-out;
+    margin-bottom: 50px;
+    color: white;
+}
+
+.background-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    height: 80%;
+    background-color: rgb(227, 227, 227);
+    border-radius: 20px;
+    padding: 30px;
+    backdrop-filter: blur(10px);
+}
+
+.upload-box {
+    padding: 20px;
+    background-color: rgba(76, 76, 76, 0.414);
+    border: 2px dashed #f0c300;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    justify-content: center;
+    margin-bottom: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.upload-box:hover {
+    border-color: #e0a800;
+    box-shadow: 0 0 25px rgba(255, 223, 0, 0.8);
+}
+
+.minor-list {
+    width: 100%;
+    max-height: 400px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.minor-item {
+    background-color: rgba(174, 174, 174, 0.5);
+    border: 1px solid #f0c300;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.minor-item:hover {
+    border-color: #e0a800;
+    box-shadow: 0 0 15px rgba(255, 223, 0, 0.5);
+}
+
+.minor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.remaining-credits {
+    text-align: right;
+}
+
+.big-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #f0c300;
+}
+
+.label {
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    background-color: #444;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+.progress {
+    height: 100%;
+    background-color: #f0c300;
+    border-radius: 5px;
+}
+
+.minor-details {
+    margin-top: 10px;
+    padding-left: 20px;
+    border-left: 2px solid #f0c300;
+}
+
+.minor-details ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.minor-details li {
+    margin: 5px 0;
+    color: #8f8f8f;
+}
+
+.minor-item h5 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #2b2b2b;
+}
+
+.minor-item p {
+    margin: 5px 0 0;
+    font-size: 0.9rem;
+    color: #606060;
+}
+
+.minor-details {
+    margin-top: 10px;
+    padding-left: 20px;
+    border-left: 2px solid #f0c300;
+    display: none;
+}
+
+.minor-details ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.minor-details li {
+    margin: 5px 0;
+    color: #595959;
+}
+
+.load-more-btn {
+    padding: 10px 20px;
+    background-color: #f0c4008d;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.load-more-btn:hover {
+    background-color: #e0a800;
+    box-shadow: 0 0 25px rgba(255, 223, 0, 0.8);
+}
+
+@keyframes cardGlow {
+    0% {
+        box-shadow: 0 0 50px rgba(255, 223, 0, 0.5);
+    }
+    100% {
+        box-shadow: 0 0 80px rgba(255, 223, 0, 0.8);
+    }
+}
+
+@keyframes glow {
+    0% {
+        text-shadow: 0 0 15px rgba(255, 223, 0, 0.2), 0 0 30px rgba(255, 223, 0, 0.3);
+    }
+    100% {
+        text-shadow: 0 0 25px rgba(255, 223, 0, 0.4), 0 0 45px rgba(255, 223, 0, 0.5);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Scrollbar styling */
+.minor-list::-webkit-scrollbar {
+    width: 8px; /* Vertical scrollbar width */
+}
+
+.minor-list::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Light gray track */
+    border-radius: 5px;
+}
+
+.minor-list::-webkit-scrollbar-thumb {
+    background: #ccc; /* Gray scrollbar handle */
+    border-radius: 5px;
+}
+
+.minor-list::-webkit-scrollbar-thumb:hover {
+    background: #999; /* Darker handle on hover */
+}
+.minor-button {
+    background-color: #444444; /* Dark gray background */
+    color: #ffd700; /* Gold text */
+    border: 1px solid #ffd700; /* Gold border */
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.minor-button:hover {
+    background-color: #555555; /* Slightly lighter gray on hover */
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.3); /* Subtle gold glow on hover */
+}
+
+.minor-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 40px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd; /* Add a subtle divider */
+}
+
+.minor-list-header h5 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #333; /* Darker color for the title */
+}
+
+.minor-list-header span {
+    font-size: 1rem;
+    color: #666; /* Slightly lighter for the credits */
+}
