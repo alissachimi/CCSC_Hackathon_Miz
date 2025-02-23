@@ -125,7 +125,8 @@ def get_electives_from_db(major):
             "description": row[2],
             "availability": row[3],
             "minor": 'Yes',
-            "prereq": 'None'
+            "prereq": 'None',
+            "required": False
         }
         for row in electives_list
     ]
