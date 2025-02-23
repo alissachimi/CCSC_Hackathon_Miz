@@ -178,6 +178,8 @@ h1 {
     background-color: #444444; /* Dark gray background */
     margin-bottom: 15px;
     box-shadow: 0 0 5px rgba(255, 215, 0, 0.1); /* Subtle gold glow */
+    height: 175px;
+    overflow-y: auto;
 }
 
 .description-card p {
@@ -185,6 +187,25 @@ h1 {
     color: #cccccc; /* Light gray text */
     margin: 0;
     line-height: 1.5;
+}
+
+/* Scrollbar styling */
+.description-card::-webkit-scrollbar {
+    width: 8px; /* Vertical scrollbar width */
+}
+
+.description-card::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Light gray track */
+    border-radius: 5px;
+}
+
+.description-card::-webkit-scrollbar-thumb {
+    background: #ccc; /* Gray scrollbar handle */
+    border-radius: 5px;
+}
+
+.description-card::-webkit-scrollbar-thumb:hover {
+    background: #999; /* Darker handle on hover */
 }
 
 /* Availability progress bar */
