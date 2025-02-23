@@ -311,6 +311,10 @@
                     selectedCard.classList.remove('empty');
                     selectedCard.classList.add('filled');
 
+                    if(!selectedItem.required){
+                        selectedCard.classList.add('elective');
+                    }
+
                     // Optionally, disable further clicks on the card
                     selectedCard.onclick = null;
 
