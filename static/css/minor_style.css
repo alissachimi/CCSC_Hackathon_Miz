@@ -262,3 +262,34 @@ h4 {
     font-size: 1rem;
     color: #666; /* Slightly lighter for the credits */
 }
+
+/* Add this to your minor_style.css */
+
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.minor-list {
+    animation: slideIn 2s ease-out;
+}
+
+.minor-item {
+    opacity: 0;
+    animation: fadeIn 1s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
