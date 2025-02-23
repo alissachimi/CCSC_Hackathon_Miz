@@ -105,6 +105,32 @@ def fetch_courses_for_category(category_id):
     conn.close()
     return courses
 
+def get_electives_from_db(major):
+    conn = sqlite3.connect("college.db")
+    cursor = conn.cursor()
+    query = "SELECT e.class_id, c.name, e.description, e.availability FROM elective_class e JOIN class c ON c.id = e.class_id"
+
+    if major:
+        query += " WHERE e.program_name = ?"
+        params = (major,)
+
+    cursor.execute(query, params)
+    electives_list = cursor.fetchall()
+    conn.close()
+
+    electives = [
+        {
+            "id": row[0],
+            "name": row[1],
+            "description": row[2],
+            "availability": row[3],
+            "minor": 'Yes',
+            "prereq": 'None'
+        }
+        for row in electives_list
+    ]
+    return electives
+
 ######### DATABASE LOGIC END ##########
 
 @app.route('/')
@@ -121,6 +147,12 @@ def flowchart():
         # add logic here to process the major selection
         return render_template('flowchart.html', major=major, classes=classes)
     return "No major selected."
+
+@app.route("/get_electives", methods=["GET"])
+def get_electives():
+    major = request.args.get("major", "")
+    electives = get_electives_from_db(major)
+    return jsonify(electives)
 
 # Allowed file extensions
 ALLOWED_EXTENSIONS = {'xlsx', 'xls'}
