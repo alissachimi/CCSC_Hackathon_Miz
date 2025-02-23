@@ -57,7 +57,6 @@
                         <div class="card-body minor-details" style="display: none;">
                             <div class="progress mb-3">
                                 <div class="progress-bar" role="progressbar" style="width: ${(minor.completed_hours / minor.total_required_hours) * 100}%;" aria-valuenow="${minor.completed_hours}" aria-valuemin="0" aria-valuemax="${minor.total_required_hours}">
-                                    ${Math.round((minor.completed_hours / minor.total_required_hours) * 100)}%
                                 </div>
                             </div>
                             <h6 class="card-subtitle mb-2 text-muted">Courses Still Needed:</h6>
@@ -77,7 +76,6 @@
                                             </ul>
                                         `: `
                                             ${cat.required_courses.length > 0 ? `
-                                                <p>Required Courses:</p>
                                                 <ul class="list-group list-group-flush">
                                                     ${cat.required_courses.map(course => `
                                                         <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -88,7 +86,6 @@
                                                 </ul>
                                             ` : ""}
                                             ${cat.choice_courses.length > 0 ? `
-                                                <p>Choice Courses:</p>
                                                 <ul class="list-group list-group-flush">
                                                     ${cat.choice_courses.map(course => `
                                                         <li class="list-group-item d-flex justify-content-between align-items-center">

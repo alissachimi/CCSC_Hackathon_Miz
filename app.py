@@ -170,7 +170,7 @@ def minor_recomendation():
 
             # Sort all_progress based on remaining hours
             all_progress.sort(key=calculate_remaining_hours)
-            
+
             # Render the progress data in the template
             return render_template('minor_recomendation.html', all_progress=all_progress)
 
@@ -201,6 +201,7 @@ def calculate_minor_progress(minor_id, minor_name, minor_categories, taken_cours
 
     categories = [cat for cat in minor_categories if cat["minor_id"] == minor_id]
 
+    # ensure same course isn't double counted for different categories
     counted_courses = set()
 
     for category in categories:
@@ -241,10 +242,16 @@ def calculate_minor_progress(minor_id, minor_name, minor_categories, taken_cours
             for course in courses:
                 if course["course_id"] in taken_courses:
                     category_progress["completed_hours"] += taken_courses[course["course_id"]]
-                    category_progress["required_courses"].append({
-                        "course_name": course["course_id"],
-                        "credits": taken_courses[course["course_id"]],
-                    })
+                    if course["required"]:
+                        category_progress["required_courses"].append({
+                            "course_name": course["course_id"],
+                            "credits": taken_courses[course["course_id"]],
+                        })
+                    else:
+                        category_progress["choice_courses"].append({
+                            "course_name": course["course_id"],
+                            "credits": taken_courses[course["course_id"]],
+                        })
                     counted_courses.add(course["course_id"])
                 else:
                     category_progress["choice_courses"].append({
