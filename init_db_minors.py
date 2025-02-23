@@ -21,10 +21,12 @@ def create_db():
             id INTEGER PRIMARY KEY,
             minor_id INTEGER,
             course_id TEXT NOT NULL,
+            category_id INTEGER,
             course_name TEXT NOT NULL,
             credits INTEGER NOT NULL,
             required BOOLEAN NOT NULL,
-            FOREIGN KEY (minor_id) REFERENCES MINOR(id)
+            FOREIGN KEY (minor_id) REFERENCES MINOR(id),
+            FOREIGN KEY (category_id) REFERENCES minor_categories(id)
         )
     ''')
 
