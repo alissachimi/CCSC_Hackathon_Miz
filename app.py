@@ -127,18 +127,61 @@ def get_electives_from_db(major):
     electives_list = cursor.fetchall()
     conn.close()
 
-    electives = [
-        {
-            "id": row[0],
-            "name": row[1],
-            "description": row[2],
-            "availability": row[3],
-            "minor": 'Yes',
-            "prereq": row[4],
-            "required": False
-        }
-        for row in electives_list
-    ]
+    conn = sqlite3.connect("college.db")
+    cursor = conn.cursor()
+    query = '''
+        SELECT 
+            e.class_id, 
+            c.name, 
+            e.description, 
+            e.availability
+        FROM elective_class e
+        JOIN class c ON c.id = e.class_id
+    '''
+    if major:
+        query += " WHERE e.program_name = ?"
+        params = (major,)
+
+    cursor.execute(query, params)
+    electives_list = cursor.fetchall()
+
+    # Initialize the electives list
+    electives = []
+
+    # Iterate through each elective
+    for row in electives_list:
+        class_id, name, description, availability = row
+
+        # Query to fetch prerequisites for the current elective
+        prereq_query = '''
+            SELECT prereq_id 
+            FROM prereqs 
+            WHERE class_id = ?
+        '''
+        cursor.execute(prereq_query, (class_id,))
+        prereqs = cursor.fetchall()
+        print(class_id)
+        print(prereqs)
+        # Convert prerequisites to a comma-separated string
+        prereq_ids = [str(row[0]) for row in prereqs]  # Convert IDs to strings
+        if not prereq_ids:
+            prereq_string = "None"
+        else:
+            prereq_string = ', '.join(prereq_ids)  # Join into a single string
+
+        # Append the elective to the list
+        electives.append({
+            "id": class_id,
+            "name": name,
+            "description": description,
+            "availability": availability,
+            "minor": 'Yes',  # Assuming this is static
+            "prereq": prereq_string,  # Add prerequisites as a string
+            "required": False  # Assuming this is static
+        })
+
+    # Close the connection
+    conn.close()
     return electives
 
 ######### DATABASE LOGIC END ##########
