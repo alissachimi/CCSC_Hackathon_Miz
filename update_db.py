@@ -37,6 +37,11 @@ cursor.execute('''
     )
 ''')
 
+cursor.execute(''' 
+    ALTER TABLE elective_class
+    ADD description TEXT
+''')
+
 # create gen_eds table
 cursor.execute(''' 
     CREATE TABLE IF NOT EXISTS gen_eds (
