@@ -83,6 +83,35 @@ cursor.executemany('''
         VALUES (?, ?, ?)
     ''', requirements)
 
+electives = [
+    # class program name recommended semester level
+    ("CMP_SC2830", "Bachelor of Science - Computer Science", 0, 2),
+    ("CMP_SC3530", "Bachelor of Science - Computer Science", 0, 3),
+    ("CMP_SC4060", "Bachelor of Science - Computer Science", 0, 4),
+    ("CMP_SC4080", "Bachelor of Science - Computer Science", 0, 4),
+    ("CMP_SC4430", "Bachelor of Science - Computer Science", 0, 4),
+    ("CMP_SC4530", "Bachelor of Science - Computer Science", 0, 4),
+    ("CMP_SC4650", "Bachelor of Science - Computer Science", 0, 4),
+    ("CMP_SC4630", "Bachelor of Science - Computer Science", 0, 4),
+    ("CMP_SC4750", "Bachelor of Science - Computer Science", 0, 4),
+
+    ("INFOTC2610", "Bachelor of Science - Information Technology", 0, 2),
+    ("INFOTC2615", "Bachelor of Science - Information Technology", 0, 2),
+    ("INFOTC2620", "Bachelor of Science - Information Technology", 0, 2),
+    ("INFOTC2630", "Bachelor of Science - Information Technology", 0, 2),
+    ("INFOTC3630", "Bachelor of Science - Information Technology", 0, 3),
+    ("INFOTC3640", "Bachelor of Science - Information Technology", 0, 3),
+    ("INFOTC3660", "Bachelor of Science - Information Technology", 0, 3),
+    ("INFOTC3810", "Bachelor of Science - Information Technology", 0, 3),
+    ("INFOTC4410", "Bachelor of Science - Information Technology", 0, 4),
+    ("INFOTC4405", "Bachelor of Science - Information Technology", 0, 4)
+]
+
+cursor.executemany('''
+        INSERT OR IGNORE INTO elective_class (class_id, program_name, rec_semester, level)
+        VALUES (?, ?, ?, ?)
+    ''', electives)
+
 conn.commit()
 conn.close()
 print("Database updated successfully!")
