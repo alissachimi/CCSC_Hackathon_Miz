@@ -28,7 +28,7 @@ cursor.execute('''
 cursor.execute(''' 
     CREATE TABLE IF NOT EXISTS elective_class (
         class_id TEXT NOT NULL,
-        program_type TEXT NOT NULL,
+        program_name TEXT NOT NULL,
         rec_semester INTEGER,
         level INTEGER,
         PRIMARY KEY (class_id),
